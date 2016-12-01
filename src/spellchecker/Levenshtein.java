@@ -1,5 +1,7 @@
 package spellchecker;
 
+import java.util.ArrayList;
+
 public class Levenshtein {
 	
 	public static int distance(String s, String t){
@@ -50,6 +52,16 @@ public class Levenshtein {
 			current = c;
 		
 		return current;
+	}
+	
+	public static String Suggest(String targetValue, ArrayList<String> dict){
+		for(String s: dict){
+			int dist = Levenshtein.distance(targetValue, s);
+			if(dist == 1 ){
+				return s;
+			}
+		}
+		return null;
 	}
 	
 }
