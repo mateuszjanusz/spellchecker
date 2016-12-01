@@ -9,7 +9,7 @@ public class SpellCheckerTest {
 //		System.out.println(SoundEx.soundex("wrhr") + ": " + "wrhr");
 //		
 //		System.out.println(Levenshtein.distance("Mateusz", "Janusz"));
-		
-		SpellChecker.scanFile();
+		new SpellChecker();
+		//SpellChecker.scanFile();
 	}
 }
