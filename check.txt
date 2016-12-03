@@ -1,1 +1,1 @@
-At the end of the course you will have a sound knowledge of the programming language. And you will have a wider appreciation of programming principles: you will be able to write code (in principle, in any language) to express computational ideas and solve computational problems. 
+At the end of the course you will have a sound knowlege of the programing language. And you will have a wider appreciation of programming principles: you will be able to write code (in principle, in any language) to express compuational ideas and solve computational problems. 

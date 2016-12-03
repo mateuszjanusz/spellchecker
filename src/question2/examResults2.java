@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class examResults2 {
 	private static Scanner scan;
-	private static Integer A = 0, B = 0, C = 0, D = 0, E = 0;
+	private static Integer A = 0, B = 0, C = 0, D = 0, E = 0; 
 	private static String n;
 	private static Double m;
 	
@@ -24,14 +24,15 @@ public class examResults2 {
 		scan = new Scanner(inputFile);
 		ArrayList<String> name = new ArrayList<String>();
 		ArrayList<Double> mark = new ArrayList<Double>();
-			
-			while(scan.hasNextLine()) {
+		
+		//if there is any new line, allocate its name and marks to the appropriate array lists 
+			while(scan.hasNextLine()) { 
 					n = scan.next();
-					name.add(n);
+					name.add(n); //add string to the array list of strings
 					m = scan.nextDouble();
-					mark.add(m);
+					mark.add(m); //add marks (doubles) to the array list of doubles
 				}
-			
+			//allocate marks to the appropriate category
 			for (int i = 0; i < mark.size(); i++){
 				if(mark.get(i) >= 70 && mark.get(i) <= 100) 
 					A++;
@@ -44,18 +45,11 @@ public class examResults2 {
 				if(mark.get(i) >= 0 && mark.get(i) <= 39) 
 					E++;
 				}
-			
-//			for (int i = 0; i < mark.size(); i++){
-//			System.out.println(mark.get(i));
-//				}
-//			for (int i = 0; i < name.size(); i++){
-//				System.out.println(n.get(i));
-//				}
 
 			System.out.println("EXAM RESULTS");
-			System.out.println("The total number of grades: " + mark.size());
-			System.out.println("The highest mark: " + Collections.max(mark));
-			System.out.println("The lowest mark: " + Collections.min(mark));
+			System.out.println("The total number of grades: " + mark.size()); //list.size() returns the number of elements in the array list
+			System.out.println("The highest mark: " + Collections.max(mark)); //collections.max() prints maximum value from the specific array list
+			System.out.println("The lowest mark: " + Collections.min(mark)); //collections.min() prints minimum value from the specific array list
 			System.out.println("The average mark: " + average(mark));
 			System.out.println("The number of grades in each category:");
 			System.out.println("The number of As: " + A);

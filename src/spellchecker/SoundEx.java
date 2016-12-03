@@ -1,8 +1,8 @@
 package spellchecker;
 
-import java.util.ArrayList;
+import java.util.List;
 
-/* This class implement soundex algorithm as it was described in The Art of Computer Programming by D.Knuth.
+/* This class implement SoundEx algorithm as it was described in The Art of Computer Programming by D.Knuth.
  * 0: AEHIOUWY // THESE LETTERS ARE SKIPPED
  * 1: BFPV
  * 2: CGJKWSXZ
@@ -47,7 +47,7 @@ public class SoundEx {
 		return input.toString();
 		
 	}
-	public static String suggest(String word, ArrayList<String> dict, ArrayList<String> soundex_dict){ 
+	public static String Suggest(String word, List<String> dict, List<String> soundex_dict){ 
 		String target = soundex(word);
 		for(String s: soundex_dict){
 			if(target.equals(s)){

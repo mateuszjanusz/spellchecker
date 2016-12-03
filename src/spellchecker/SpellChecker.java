@@ -1,34 +1,36 @@
 package spellchecker;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Collections;
+import java.util.List;
 
 public class SpellChecker {
-	static ArrayList<String> dict = new ArrayList<String>(); //dictionary array list
-	static ArrayList<String> soundex_dict = new ArrayList<String>();
+	static List<String> dict = new ArrayList<String>();
+	static List<String> soundex_dict = new ArrayList<String>();
+	static List<String> new_words = new ArrayList<String>();
 	
-	public SpellChecker() throws FileNotFoundException{
+	public SpellChecker() throws IOException{
 		dictionary();
 		corrector(askInput(), askOutput());
 		
 	}
 	//set up dictionary
-	public void dictionary() throws FileNotFoundException{
+	public void dictionary() throws IOException{
+		FileReader dictReader = new FileReader("dictionary.txt");
+		BufferedReader br = new BufferedReader(dictReader);
+		String inputLine;
 		//copy dictionary to the array list
-		Scanner dictionary = new Scanner(new File("dictionary.txt"));
-		while (dictionary.hasNext()) {
-				String word = dictionary.next();
-				dict.add(word);
-				soundex_dict.add(SoundEx.soundex(word)); //add soundex code of that word to the other list
-			}
-		dictionary.close();
+		while ((inputLine = br.readLine()) != null) {
+			dict.add(inputLine);
+			soundex_dict.add(SoundEx.soundex(inputLine)); //add soundex code of that word to the other list
+		}
+		dictReader.close();
 	}
 	private static boolean searchDict(String word){
 		/*
@@ -83,7 +85,7 @@ public class SpellChecker {
 		try{
 			BufferedReader in = new BufferedReader(new FileReader(fileIn)); 
 			PrintWriter out = new PrintWriter(new FileWriter(fileOut));
-			FileWriter outDict = new FileWriter("dictionary.txt",true); //to add words to the current dictionary
+			//FileWriter outDict = new FileWriter("dictionary.txt",true); //to add words to the current dictionary
 			boolean found; 
 			int countWords = 0;
 			int missWords = 0;
@@ -116,7 +118,7 @@ public class SpellChecker {
 							{
 							missWords++;
 							String levenshtein = Levenshtein.Suggest(curr, dict);
-							String soundex = SoundEx.suggest(curr, dict, soundex_dict);
+							String soundex = SoundEx.Suggest(curr, dict, soundex_dict);
 							
 							String miss = whichOption(curr, levenshtein, soundex);
 							if (miss.length() > 0){
@@ -137,8 +139,20 @@ public class SpellChecker {
 									lineOut += curr;
 									break;
 								case '5' : //add the word to the dictionary
-									outDict.write("\n");
-									outDict.write(curr.toLowerCase());//appends the string to the file
+									dict.add(curr.toLowerCase()); 
+									new_words.add(curr.toLowerCase());
+									Collections.sort(dict); //sort words alphabetically 
+									//print out sorted words into dictionary file
+									FileWriter dictWriter = new FileWriter("dictionary.txt");
+									PrintWriter outDict = new PrintWriter(dictWriter);
+									for (String outputLine : dict) {
+										outDict.println(outputLine);
+									}
+									outDict.flush();
+									outDict.close();
+									dictWriter.close();
+//									outDict.write("\n");
+//									outDict.write(curr.toLowerCase());//appends the string to the file
 									missWords--;
 									break;
 								} //end switch
@@ -158,12 +172,15 @@ public class SpellChecker {
 				out.print("\n");
 				lineOut = ""; //reset current line
 			}
-			outDict.close();
+			
+			//outDict.close();
 			out.close();
 			in.close();
 			System.out.println("Done! Your file has been saved as " + fileOut);
 			System.out.println("Words in total: " + countWords);
 			System.out.println("Misspelled words: " + missWords);
+			if(new_words.size()>0)
+				System.out.println("New words added to the dictionary: " + new_words.toString());
 			System.out.println("Punctuations: " + punctuation);
 			System.exit(0);
 			
